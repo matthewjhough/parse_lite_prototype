@@ -4,9 +4,33 @@ import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
+  parseLite = new ParseLite();
+  state = {
+    value: "",
+    foo: "bar",
+    test: 5
+  };
+
+  componentDidMount() {
+    // const parseLite = new ParseLite(window.location.search);
+    console.log("PARSELITE: ", this.parseLite);
+  }
+
+  changeValue = e =>
+    this.setState({
+      value: e.target.value
+    });
+
+  updateParams = () => {
+    this.parseLite.updateURL(this.state);
+    console.log(this.parseLite);
+  };
+
+  // todo : flesh out
+  clearParams = () => this.parseLite.removeURLParameter("query");
+
   render() {
-    const parseLite = new ParseLite(window.location.search);
-    console.log(parseLite);
+    console.log("current state:", this.state);
     return (
       <div className="App">
         <header className="App-header">
@@ -23,6 +47,12 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <input
+          placeholder="enter a URL Param..."
+          onChange={this.changeValue}
+          value={this.state.value}
+        />
+        <button onClick={this.updateParams}>Push state</button>
       </div>
     );
   }
